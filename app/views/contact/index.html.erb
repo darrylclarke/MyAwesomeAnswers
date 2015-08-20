@@ -1,0 +1,22 @@
+<h1>Contact Us!</h1>
+
+
+<%= form_tag "/contact" do %>
+<div><%= label_tag "Name:" %>
+<%= text_field_tag :name %>
+</div
+<%= label_tag "Email:" %>
+<%= email_field_tag :email %>
+<%= submit_tag "Contact Us" %>
+
+<% end %>
+
+<!--
+<form action="/contact" accept-charset="UTF-8" method="post">
+<input name="utf8" type="hidden" value="✓">
+<input type="hidden" name="authenticity_token" value="3ANuij4ENAjWEdAct8GvuwGxsVUIMFoJmpJxhCsxoma9/pohIUk3JvnnQ2KthFLpNv6OAcvt/yvPqGaTrAvnQQ==">
+
+<input type="submit" name="commit" value="Contact Us">
+
+</form>
+-->

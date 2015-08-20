@@ -1,0 +1,20 @@
+
+<h1>Hello <%= @name %></h1>
+
+<%=params%>
+<hr>
+<%=hello_path%>
+<hr>
+<%=hello_url%>
+<hr>
+Greet path
+<br>
+<%= greet_path({name: "Darryl"}) %>
+<hr>
+<%= greet_path("eeeeee") %> <br>
+<%= full_greeting_path("Tam", "New West") %>
+<hr>
+<%= greet_url({name: "Darryl"}) %>
+<p>
+<%= greet_url({name: "abc", city: "burnaby"}) %>
+

@@ -7,6 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <nav>
+    <%= link_to "Home", root_path%>
+      |
+<%#   link_to is a built - in Rails view helper that generates an ancheoer tag <a>
+      the first arument is the anchor text, the second is the path or url and
+      then it takes a hash of options %>
+    <!--<a href="<%= contact_path %>"> Contact Us </a>    Not recommended, but works-->
+    <%= link_to "Contact Us", contact_path, class:"my-link-class", style:"color:red;" %>
+      |
+     <%= link_to "Subscribe", subscribe_path %>
+      |
+    <%= link_to "Google", "http://www.Google.com", target:"_blank", style:"color:purple;" %>
+  </nav>
 
 <%= yield %>
 
