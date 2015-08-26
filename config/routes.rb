@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  
   # get request
   # url "/hello"
   # WelcomeController
@@ -18,6 +19,38 @@ Rails.application.routes.draw do
   
   get "/subscribe" => "subscribe#index"
   post "/subscribe" => "subscribe#subscribe"
+  
+  
+  
+  
+  # resources :questions #A1
+  # post "/questions/:question_id/answers" => "answers#create" #A2
+  
+  #or B:
+  resources :questions  do
+    #nesting resources :answers in here makes every URL for answers prepended
+    # with/questions/:question_id
+    resources :answers, only: [:create, :destroy]
+ 
+  end
+  
+  resources :answers, only: [] do
+    resources :comments, only: [:create, :destroy] 
+  end
+  
+  resources :users, only: [:new, :create]
+  
+  patch "/question/:id/lock" => "questions#lock", as: :lock_question
+  
+  # get  "/questions/new"          => "questions#new",    as: :new_question   # 2015.08.20  (as new_question_path)
+  # post "/questions"              => "questions#create", as: :questions      # Convention has path plural here.
+  # get  "/questions/:id"          => "questions#show",   as: :question       # 2015.08.20 Singular helper
+  #                                                                           # more specific URLs have to go first.
+  # get  "/questions"              => "questions#index" # No need for helper as it is defined above. :questions 
+  # get  "/questions/:id/edit"     => "questions#edit",   as: :edit_question  # This of course goes last.
+  # patch "/questions/:id"         => "questions#update"                                                        
+  # delete "/questions/:id"        => "questions#destroy"
+  
   # This sets the home page.  The helpers are:  root_path and root_url
   root "welcome#index"
   

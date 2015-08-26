@@ -1,0 +1,19 @@
+<h1>Create a question:</h1>
+
+<%# 
+
+render is going to look for a partial meaning a view file that starts with
+an `_`.  If you don't specify full path it will look in the same folder as
+this file's folder. In this case it will look in views/questions folder.
+
+You can specify full path such as: render "/questions/form"
+
+- Partial have access to instance variables so no need to pass them. For
+  instance. the _form.html.erb partial have access to @question
+  
+- If you want to pass local variables to partial then you can pass them
+  as a hash to the render method.  
+  		e.g: render "form", greeting: "Hello"
+     %>
+	 
+<%= render "form", purpose: "Creation Time" %>

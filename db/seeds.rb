@@ -5,18 +5,26 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+["Art", "Sports", "Dogs", "Technology", "Food", "Beer"].each do |cat|
+	c = Category.new name: cat
+	c.save
+end
+
+all_categories = Category.all
+
 100.times do
 		title = Faker::Company.bs
 		body = Faker::Lorem.paragraph
 		view_count = rand(100)
 		created_at = Time.now - (rand(30)).days
-		Question.create( {title:  title,
-			              body:   body,
+		Question.create( {title:       title,
+			              body:        body,
+						  category:    all_categories.sample, # Don't need to put .id because of the links
 						  view_count:  view_count,
-						  created_at: created_at })
+						  created_at:  created_at })
 		# Time.now - 20.minutes
 		# Time.now - 1.year
-		
 end
 		
 print Cowsay::say("Created 100 records")

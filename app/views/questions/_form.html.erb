@@ -1,0 +1,66 @@
+<% if @question.errors.any? %>
+	<ul>
+		<% @question.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if purpose  %>
+	<h3><%= purpose %></h3>
+<% end %>		
+
+	<%# the form_for helper method can take an ActiveRecord object as a first arguement
+		for instance, @question which is of class Question.
+		Rails, by convention, will do the following:
+		
+		1. If @question is not persisted in the database, it will make the action for
+	    	the form `questions_path`. It will look for the class name of the passed
+			object (in this case its Question) and by convention submit to questions_path.
+			It will also make the method POST in this case. (New / Create)
+		
+		2. If @question is persisted to the database, it will make the action for
+			the form go to question_path (/questions/:id) (where :id is the id of
+			@question) and it will make the form submit a PATCH request in order for this
+			form to submit to the update action in our controller. (Edit / Update)
+			%>
+	
+	<%= form_for @question, html: {class: "form-horizontal"} do |f| %>
+		
+		<%# if you don't pass an options for f.submit it will:
+			1.  If @question is not persisted it will make the button label "Create [Object Class]"
+			2.  If @question is persisted, it will make the button lablel "Update [Object Class]
+			%>
+							
+		<div class="form-group">
+			<%= f.label :title %>
+			<%# using f.text_field ensures that Rails will use the proper 'name' HTML
+				attribute and it will also populate the text field with data if @question.title
+				has a value. %>
+			<%= f.text_field :title, class: "form-control"%>
+		</div>
+		
+		<div class="form-group">
+			<%= f.label :body %>
+			<%= f.text_field :body, class: "form-control" %>
+		</div>
+	
+		<div class = "form-group">
+			<%= f.label :category_id %>
+			<%= f.collection_select :category_id, Category.all, :id, :name, {}, class: "form-control" %> 
+			<!--f. means leave out ":post" object in first paramter-->
+		</div>
+		
+		<div class = "form-group">	
+		<%= f.submit class: "btn btn-primary" %>
+		</div>
+
+		
+	<% end %>
+	
+<!--	
+<form class="new_question" id="new_question" action="/questions" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="5UztmAWT1kyUG3S1ob9D4H8qghv1YOXGFzzUtynU/6+EsRkzGt7VYrvt58u7+r6ySGW9Tza9QORCBsOgru66iA==">
+	
+	<input type="submit" name="commit" value="Create Question">
+</form>
+-->

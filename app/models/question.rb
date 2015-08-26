@@ -1,5 +1,16 @@
 class Question < ActiveRecord::Base
 	
+	has_many :answers, dependent: :destroy			# need to add this.
+	belongs_to :category
+	
+	 # can put , foreign_key: "the_key_name", but better to use the defaults.
+	 # The dependent option is needed because we added a fk constraint to the db so the
+	 # dependent records ( in this case answers) must do somethign before deleting a question that they
+	 # reference.  The options are:  
+	     # :destroy --> deletes all dependent records
+		 # :nullify --> will make question_id field null in the db b/f delting the question.
+		 
+		 
 	# # This prevents the record from saving or updating unless a title is provided.
 	# validates :title, presence: {message: "Must be present"},
 	# 				  # This will check for uniqueness of title / body combination.  Title doesn't have
@@ -114,6 +125,12 @@ class Question < ActiveRecord::Base
      self.view_count = view_count + 1
      self.save
    end	
+
+	#delegate :name, to: :category                # @question.name	
+	delegate :name, to: :category, prefix: true	  # @question.category_name /w 'category_' prefix
+	# def category_name
+	# 	category.name
+	# end
 	
 private
 

@@ -1,0 +1,96 @@
+<h1><%= @question.title %></h1>
+<hr>
+
+<p><%= @question.body %> </p>
+	
+<p>View count = <%= @question.view_count %></p>
+	
+<p>Category = <%= @question.category_name %> </p>
+<%= link_to "Edit", edit_question_path(@question), class: "btn btn-info" %>
+<%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"%>
+<!--<% if @question.locked? %>
+	<%= link_to "Unlock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning"%>
+<% else %>
+	<%= link_to "Lock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning"%>
+<% end %>	-->
+<!--Alternate solution:  Piggy back on the existing update.
+	                     This @question is already in the database, so the update
+                         is called.-->
+<!--<%= form_for @question do |f| %>
+	<%= f.hidden_field :locked, value: !@question.locked %>
+	<%= f.submit @question.locked ? "Lock" : "Unlock", class: "btn btn-warning" %>
+<% end %>-->
+<!--End of alternate solution-->
+<!--Another alternate solution-->
+<%= link_to ( @question.locked ? "Lock" : "Unlock"),                           # only works if Javascript is enabled.
+	        question_path(@question, {question: {locked: !@question.locked}}), # mimics the way paramaters are passed in a form.
+			class: "btn btn-warning", 
+			method: :patch %>
+
+<!--<a class="btn btn-warning" rel="nofollow" data-method="patch" href="/questions/16?question%5Blocked%5D=false">Lock</a>-->
+<!--Another alternate solution ends.-->
+<!--Fourth solution
+... button_to ... doesn't use javascript ... makes it a form
+   -->
+<!--Fourth solution ends.-->
+<!--Fifth 
+QuestionLockedController
+- Create - POST request
+- Destroy
+Fifth-->
+<h2>New Answer</h2>
+<% if @answer.errors.any? %>
+	<ul>
+		<% @answer.errors.full_messages.each do |msg| %>
+			<li><%= msg  %></li>
+		<% end %>
+	</ul>
+<% end %>
+	
+<%# @answer (not persisted) -=-> URL: answers_path         (CREATE) %>
+<%# @answer (persisted    )  ==> URL: answer_path(@answer) (UPDATE) %>
+	
+<!--This is the same as below:...-->
+<%#= form_for @answer, url: question_answers_path(@question)  do |f| %>
+	
+<!--This is better...-->
+<%= form_for  [@question, @answer] do |f| %>
+		<!--<%= f.label :body %>-->
+	<div class = "form-group" >
+		<%= f.text_area :body, class: "form-control" %>
+		<%= f.submit "Create Answer", class:  "btn btn-primary" %>
+	</div>
+<% end %>
+<!--	
+<form   ( before label and body)
+		class="new_answer" 
+		id="new_answer" 
+		action="/questions/14/answers" 
+		accept-charset="UTF-8" 
+		method="post">
+		<input name="utf8" type="hidden" value="✓">
+		<input type="hidden" name="authenticity_token" value="wSIWmKlM20myriETY0gHXFafV981JNXVkLnVtGaBwnOg3+IztgHYZ51Ysm15DfoOYdBoi/b5cPfFg8Kj4buHVA==">
+		<input type="submit" name="commit" value="Create Answer" class="btn btn-primary">
+</form>-->
+
+<h2>Answers:</h2>
+<% @question.answers.each do |ans| %>
+	<div class = "well" id =  "<%= dom_id(ans) %>" >
+		<%= ans.body %>
+		<%= link_to "Delete", question_answer_path(@question, ans), class: "btn btn-small btn-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+		<hr>
+		
+	<h3>Add Comment</h3>
+	<%= form_for [ans, Comment.new] do |f| %>
+		<%= f.text_area :body, placeholder: "Add comment here..." %>
+		<%= f.submit "Comment" %>
+	<% end %>
+		
+		<% ans.comments.each do |com| %>
+		<div class="well">
+			<%= com.body %>
+		</div>
+		<% end %>
+		
+	</div>
+<% end %>

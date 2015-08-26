@@ -30,11 +30,12 @@ gem 'cowsay'
 gem "interactive_editor"
 gem "awesome_print"
 gem "hirb"
+gem "kaminari"
 
-
+gem "bootstrap-sass"
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
