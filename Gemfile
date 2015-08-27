@@ -31,6 +31,9 @@ gem "interactive_editor"
 gem "awesome_print"
 gem "hirb"
 gem "kaminari"
+gem "cancancan"
+
+gem "rails_12factor", group: :production
 
 gem "bootstrap-sass"
 

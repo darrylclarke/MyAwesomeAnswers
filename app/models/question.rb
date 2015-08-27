@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
 	
 	has_many :answers, dependent: :destroy			# need to add this.
 	belongs_to :category
+	belongs_to :user
 	
 	 # can put , foreign_key: "the_key_name", but better to use the defaults.
 	 # The dependent option is needed because we added a fk constraint to the db so the
@@ -131,6 +132,14 @@ class Question < ActiveRecord::Base
 	# def category_name
 	# 	category.name
 	# end
+	
+	def user_name
+		if user_id
+			self.user.first_name + " " + self.user.last_name
+		else
+			""
+		end
+	end
 	
 private
 

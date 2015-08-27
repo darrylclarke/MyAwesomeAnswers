@@ -2,11 +2,17 @@ class QuestionsController < ApplicationController
 	
 	PER_PAGE = 10
 	
+	# These are called in order, find_question won't be called until after this.
+	before_action :authenticate_user!, except: [:show, :index]
+	
 	# The before action takes in a required first argument which references a method that will be 
 	# executed before every action.  You can give it a second argument which is a hash.
 	# Possible keys are :only and :except ==> if you want to restrict the method calls to specific actions.
 	# before_action :find_question, except: [:index, :new, :create]
 	before_action :find_question, only: [:show, :edit, :update, :destroy, :lock]
+	
+	
+	before_action :authorize!, only: [:edit, :update, :destroy]
 	
 	# new is usually used in rails to display a form to create the record
 	# (in this case a question record.)
@@ -39,6 +45,7 @@ class QuestionsController < ApplicationController
 		#q.body  = params[:question][:body]
 
 		@question = Question.new( question_params )
+		@question.user = current_user
 
 		if @question.save
 			#render text: "Success"
@@ -67,9 +74,9 @@ class QuestionsController < ApplicationController
 		# Push stuff into the model.  (Or service objects, decorators --> learn later.)
 		# Thin controllers, fat models. [[ for now ]]
 		if params[:search]
-			@questions = Question.search(params[:search]).order( params[:order])#.page(params[:page]).per(PER_PAGE)
+			@questions = Question.search(params[:search]).order( params[:order]).page(params[:page]).per(PER_PAGE)
 		else
-			@questions = Question.order(params[:order])#.page(params[:page]).per(PER_PAGE)
+			@questions = Question.order(params[:order]).page(params[:page]).per(PER_PAGE)
 		end
 	end
 	
@@ -105,6 +112,10 @@ class QuestionsController < ApplicationController
 		@question.locked = !@question.locked
 		@question.save
 		redirect_to question_path(@question)
+	end
+	
+	def authorize!
+		redirect_to root_path, alert: "Access Denied" unless can? :manage, @question
 	end
 	
 private

@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
 		
 		answer_anchor = ActionController::Base.helpers.dom_id( @answer )
 		redirect_to question_path( @answer.question ), 
-					anchor: :answer_anchor
+					anchor: :answer_anchor,
 		            notice: "Comment Created"
 					
 	end

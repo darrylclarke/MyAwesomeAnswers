@@ -5,4 +5,6 @@ class User < ActiveRecord::Base
 	
 	validates	:email, presence: true, uniqueness: true,
 						format: VALID_EMAIL_REGEX
+						
+	has_many :questions, dependent: :nullify						
 end
