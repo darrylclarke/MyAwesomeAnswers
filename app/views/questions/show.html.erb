@@ -6,7 +6,8 @@
 <p>View count = <%= @question.view_count %></p>
 	
 <p>Category = <%= @question.category_name %> </p>
-<p>User = <%= @question.user_name %> </p>
+<p>Created by = <%= @question.user_name %> </p>
+<p>On <%=  @question.created_at.strftime("%Y-%b-%d") %></p>
 	
 <% if can? :edit, @question %>
 	<%= link_to "Edit", edit_question_path(@question), class: "btn btn-info" %>

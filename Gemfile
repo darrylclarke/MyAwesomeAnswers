@@ -27,9 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'faker'
 gem 'cowsay'
 
-gem "interactive_editor"
-gem "awesome_print"
-gem "hirb"
+
 gem "kaminari"
 gem "cancancan"
 
@@ -47,6 +45,11 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+
+  gem "interactive_editor"
+  gem "awesome_print"
+  gem "hirb"
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 

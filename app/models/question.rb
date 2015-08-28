@@ -134,10 +134,10 @@ class Question < ActiveRecord::Base
 	# end
 	
 	def user_name
-		if user_id
-			self.user.first_name + " " + self.user.last_name
+		if user
+			user.full_name
 		else
-			""
+			"Anonymous"
 		end
 	end
 	

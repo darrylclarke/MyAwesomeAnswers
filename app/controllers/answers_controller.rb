@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
 	
+	before_action :authenticate_user!
+	
 	def create
 		@answer		= Answer.new answer_params				# make a new Answer
 		
@@ -8,6 +10,7 @@ class AnswersController < ApplicationController
 		  
 		@question	= Question.find params[:question_id]	# find associated question #A2-a
 		@answer.question = @question						# link them up             #A2-b
+		@answer.user = current_user
 		if @answer.save										# save it
 			redirect_to question_path(@question),				# redirect back to question page in the 
 				notice:  "Answer created!"						# normal way.
